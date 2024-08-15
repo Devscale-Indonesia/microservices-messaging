@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  notifications-services:
+    build: ./notifications
+    ports:
+      - "8011:8011"
+    depends_on:
+      - rabbitmq
+    restart: on-failure
+
+  orders-services:
+    build: ./orders
+    ports:
+      - "8010:8010"
+    environment:
+      - MONGO_URI=mongodb://orders-mongo:27017/orders
+    depends_on:
+      - orders-mongo
+      - rabbitmq
+
+  orders-mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - orders-mongodata:/data/db
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+
+volumes:
+  orders-mongodata:

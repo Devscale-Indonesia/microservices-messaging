@@ -1,0 +1,11 @@
+### Orders Data
+GET http://localhost:8010
+
+### Create Order
+POST http://localhost:8010
+Content-Type: application/json
+
+{
+    "productName": "My New Product with Notification",
+    "price": 300
+}
